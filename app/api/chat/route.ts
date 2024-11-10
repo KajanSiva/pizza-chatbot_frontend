@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { message, sessionId } = await req.json();
 
     // Use the environment variable for the backend URL
     const backendUrl = process.env.BACKEND_URL;
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, sessionId }),
     });
 
     if (!response.ok) {

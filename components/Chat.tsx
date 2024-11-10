@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { SendHorizontal } from 'lucide-react'
 import { ChatMessage } from './ChatMessage'
 import * as ScrollArea from '@radix-ui/react-scroll-area'
@@ -14,10 +14,17 @@ export function Chat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [sessionId, setSessionId] = useState<string>('')
+
+  // Generate a random sessionId when the component mounts
+  useEffect(() => {
+    const randomId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+    setSessionId(randomId)
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading || !sessionId) return
 
     const userMessage = { role: 'user' as const, content: input.trim() }
     setMessages(prev => [...prev, userMessage])
@@ -28,7 +35,10 @@ export function Chat() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage.content }),
+        body: JSON.stringify({ 
+          message: userMessage.content,
+          sessionId: sessionId 
+        }),
       })
 
       if (!response.ok) throw new Error('Failed to fetch response')
