@@ -54,10 +54,10 @@ export function Chat() {
   }
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl mx-auto border rounded-lg overflow-hidden">
+    <div className="flex flex-col flex-1 w-full max-w-6xl mx-auto border rounded-lg overflow-hidden">
       <ScrollArea.Root className="flex-1 overflow-hidden">
         <ScrollArea.Viewport className="h-full w-full">
-          <div className="flex flex-col">
+          <div className="flex flex-col min-h-full">
             {messages.map((message, i) => (
               <ChatMessage key={i} {...message} />
             ))}

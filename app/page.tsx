@@ -1,8 +1,8 @@
 import { Chat } from '@/components/Chat'
 
-export default function Home() {
+export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="h-screen p-4 flex">
       <Chat />
     </main>
   )
